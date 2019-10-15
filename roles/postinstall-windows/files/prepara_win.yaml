@@ -1,0 +1,19 @@
+- hosts: localhost
+  become: yes
+  tasks:
+  - name: Instala Epel
+    yum:
+     name: epel-release
+     state: latest
+  - name: Instala python pip
+    yum:
+     name: python-pip
+     state: latest
+  - name: Instala e atualiza pip
+    shell: "pip install --upgrade --force-reinstall pip==9.0.3"
+  - name: Instala xmltodict
+    shell: "pip install xmltodict"
+  - name: Instala (de novo) pip
+    shell: "pip install --upgrade pip"
+  - name: Instala pywinrm
+    shell: "pip install --upgrade pywinrm"

@@ -1,0 +1,31 @@
+- name: Ensure user luciano is present
+  win_user:
+    name: luciano
+    password: redhat@123
+    state: present
+    groups:
+      - Users
+
+- name: Instala Active Directory
+  win_feature:
+    name: "AD-Domain-Services"
+    include_management_tools: yes
+    include_sub_features: yes
+    state: present
+  register: result
+
+- name: Instala Dominio
+  win_domain:
+     dns_domain_name: "{{ dns_name }}"
+     safe_mode_password: "{{ safe_mode_password }}"
+  register: ad
+
+- name: reboot server
+  win_reboot:
+    msg: "Installing AD. Rebooting..."
+    pre_reboot_delay: 15
+  when: ad.changed
+
+- debug:
+    msg: "Active Directory Instalado!"
+
