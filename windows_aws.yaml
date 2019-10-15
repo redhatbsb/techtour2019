@@ -44,7 +44,7 @@
          vpc_subnet_id: "{{ aws_subnet_id }}"
          assign_public_ip: yes
          instance_tags:
-          Name: Windows-TestRecife
+          Name: Windows-AD-TechTour2019
          user_data: "{{ lookup('template', 'windows.ini') }}"
     register: ec2
 

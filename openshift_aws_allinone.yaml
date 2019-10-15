@@ -33,7 +33,7 @@
     #     id: "{{ id_instancia_aws }}"
     #    
          instance_tags:
-          Name: OpenshiftAllInOne
+          Name: OpenshiftTechTour2019
          assign_public_ip: yes
          volumes:
           - device_name: /dev/sda1
