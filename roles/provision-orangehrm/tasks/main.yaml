@@ -1,0 +1,15 @@
+- name: "Login no cluster openshift usando {{ login_openshift }}"
+  shell: "{{ login_openshift }} --insecure-skip-tls-verify=true"
+
+- name: Cria projeto OrangeHRM
+  shell: "oc new-project orangehrm"
+
+- name: Da permissao para pod orangehrm
+  shell: "oc adm policy add-scc-to-user anyuid -z default -n orangehrm"
+
+- name: Deploy solucao orangehrm
+  shell: "oc new-app orangehrm/orangehrm"
+
+- name: Expoe rota
+  shell: "oc expose svc/orangehrm"
+

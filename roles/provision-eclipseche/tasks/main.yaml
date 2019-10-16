@@ -1,0 +1,10 @@
+- name: "Login no cluster openshift usando {{ login_openshift }}"
+  shell: "{{ login_openshift }} --insecure-skip-tls-verify=true"
+
+- name: Cria projeto Che
+  shell: "oc new-project che"
+
+- name: Instala Che via Operator
+  shell: "chectl server:start --platform=openshift --installer=operator --domain={{ domain_openshift }}"
+
+

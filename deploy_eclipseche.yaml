@@ -1,0 +1,21 @@
+- hosts: 127.0.0.1
+  become: no
+  vars_prompt:
+    - name: "login_openshift"
+      prompt: "Comando de login no cluster incluindo token:"
+      private: no
+
+    - name: "domain_openshift"
+      prompt: "Dominio apps Openshift"
+      private: no
+
+
+  tasks:
+  - name: Include variables
+    include_vars:
+      file: config.yml
+
+  - name: Instala Eclipse CHE
+    import_role: 
+       name: provision-eclipseche
+#

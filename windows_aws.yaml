@@ -16,10 +16,10 @@
     infranode_private_ip: ""
     node1_private_ip: ""
 
-#  vars_prompt:
-#  - name: "senha_email"
-#    prompt: "Digite a senha de seu email gmail"
-#    private: yes
+  vars_prompt:
+  - name: "login_desenvolvedor"
+    prompt: "Digite o login do desenvolvedor"
+    private: no 
 #  - name: "email_instrutor"
 #    prompt: "Qual o seu email?"
 #    private: no
@@ -30,7 +30,9 @@
   - name: Carregando variaveis de config.yml
     include_vars: config.yml
 
-
+  - name: Passa variavel do desenvolvedor
+    set_fact:
+       login_desenvolvedor: "{{ login_desenvolvedor }}"
   - name: Cria Instancia Windows
     ec2:
          aws_access_key: "{{ aws_access_key }}"
@@ -44,7 +46,7 @@
          vpc_subnet_id: "{{ aws_subnet_id }}"
          assign_public_ip: yes
          instance_tags:
-          Name: Windows-AD-TechTour2019
+          Name: TechTour2019-Win-ActiveDirectory
          user_data: "{{ lookup('template', 'windows.ini') }}"
     register: ec2
 
@@ -105,6 +107,7 @@
    public_dns: "{{ hostvars['localhost']['public_dns'] }}"
    private_ip: "{{ hostvars['localhost']['private_ip'] }}"
    provider: "{{ hostvars['localhost']['provider'] }}"
+   login_desenvolvedor: "{{ hostvars['localhost']['login_desenvolvedor'] }}"
    ansible_connection: winrm
    ansible_ssh_port: 5986
    ansible_ssh_user: administrator

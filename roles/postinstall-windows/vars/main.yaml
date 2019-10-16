@@ -1,2 +1,3 @@
-dns_name: ad.contoso.com
+dns_name: ad.techtour2019.com
 safe_mode_password: "redhat@123"
+path_group: "DC=ad,DC=techtour2019,DC=com"

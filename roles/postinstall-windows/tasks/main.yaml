@@ -1,6 +1,6 @@
-- name: Ensure user luciano is present
+- name: Garante que o usuario desenvolvedor esta no ad
   win_user:
-    name: luciano
+    name: "{{ login_desenvolvedor }}"
     password: redhat@123
     state: present
     groups:
@@ -25,6 +25,28 @@
     msg: "Installing AD. Rebooting..."
     pre_reboot_delay: 15
   when: ad.changed
+
+
+- name: Verifica se porta ADWS esta no ar
+  win_wait_for:
+    port: 9389
+    delay: 10
+    timeout: 300
+
+- name: Criando Grupo Desenvolvedores
+  win_domain_group:
+    name: Desenvolvedores
+    scope: global
+    path: "{{ path_group }}"
+
+- name: Criando o login do desenvolvedor
+  win_domain_user:
+    name: "{{ login_desenvolvedor }}"
+    password: "redhat@123"
+    state: present
+    path: "CN=Desenvolvedores,{{ path_group }}"
+    groups:
+      - Desenvolvedores
 
 - debug:
     msg: "Active Directory Instalado!"
