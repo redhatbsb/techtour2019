@@ -15,7 +15,7 @@
       password: "redhat@123"
       email: "{{ email_desenvolvedor }}"
       state: present
-      path: "{{ path_group }}"
+      path: "CN=Users,{{ path_group }}"
       groups:
         - Desenvolvedores
  
