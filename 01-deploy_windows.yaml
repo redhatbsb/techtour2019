@@ -47,7 +47,7 @@
          assign_public_ip: yes
          instance_tags:
           Name: TechTour2019-Win-ActiveDirectory
-         user_data: "{{ lookup('template', 'windows.ini') }}"
+         user_data: "{{ lookup('template', 'assets/windows.ini') }}"
     register: ec2
 
 

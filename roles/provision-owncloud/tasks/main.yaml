@@ -1,0 +1,12 @@
+- name: "Login no cluster openshift usando {{ login_openshift }}"
+  shell: "{{ login_openshift }} --insecure-skip-tls-verify=true"
+
+- name: Cria projeto OwnCloud
+  shell: "oc new-project owncloud | echo 'Ja existe o projeto'" 
+
+- name: Deploy Template Owncloud
+  shell: "oc create -f {{ role_path }}/files/owncloud-persistent.json -n openshift | echo 'Ja existe o template'"
+
+
+- name: Deploy Template Owncloud projeto Owncloud
+  shell: "oc create -f {{ role_path }}/files/owncloud-persistent.json -n owncloud | echo 'Ja existe o template'"

@@ -1,0 +1,41 @@
+- hosts: 127.0.0.1
+  become: no
+  gather_facts: no
+  vars_prompt:
+  - name: "login_desenvolvedor"
+    prompt: "Digite o login do desenvolvedor"
+    private: no 
+
+  tasks:
+  - name: Include variables
+    include_vars:
+      file: config.yml
+
+  - name: Passa variavel do desenvolvedor
+    set_fact:
+       login_desenvolvedor: "{{ login_desenvolvedor }}"
+
+# =========================
+# Windows Stuff
+# =========================
+
+  - name: Instala Infra-Estrutura Windows
+    import_role: 
+       name: provision-windows
+
+- name: Executa postinstall
+  hosts: aws_instances_ips
+  gather_facts: false
+  roles:
+    - postinstall-windows
+
+# =========================
+# Openshift Stuff
+# =========================
+
+- hosts: 127.0.0.1
+  tasks:
+  - name: Instala Openshift All-In-One
+    import_role:
+       name: provision-windows
+

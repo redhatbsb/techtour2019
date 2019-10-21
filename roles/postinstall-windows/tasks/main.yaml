@@ -1,10 +1,10 @@
-- name: Garante que o usuario desenvolvedor esta no ad
-  win_user:
-    name: "{{ login_desenvolvedor }}"
-    password: redhat@123
-    state: present
-    groups:
-      - Users
+#- name: Garante que o usuario desenvolvedor esta na maquina local
+#  win_user:
+#    name: "{{ login_desenvolvedor }}"
+#    password: redhat@123
+#    state: present
+#    groups:
+#      - Users
 
 - name: Instala Active Directory
   win_feature:
@@ -14,13 +14,13 @@
     state: present
   register: result
 
-- name: Instala Dominio
+- name: Configura Arvore Dominio
   win_domain:
      dns_domain_name: "{{ dns_name }}"
      safe_mode_password: "{{ safe_mode_password }}"
   register: ad
 
-- name: reboot server
+- name: Reinicia Servidor
   win_reboot:
     msg: "Installing AD. Rebooting..."
     pre_reboot_delay: 15
@@ -39,14 +39,26 @@
     scope: global
     path: "{{ path_group }}"
 
-- name: Criando o login do desenvolvedor
+- name: "Criando o login do desenvolvedor {{ login_desenvolvedor }} no grupo CN=Desenvolvedores,{{ path_group }}"
   win_domain_user:
     name: "{{ login_desenvolvedor }}"
     password: "redhat@123"
+    email: "desenvolvedor@techtour2019.com"
     state: present
-    path: "CN=Desenvolvedores,{{ path_group }}"
+    path: "{{ path_group }}"
     groups:
       - Desenvolvedores
+
+- name: "Criando o usuario para Domain Admin"
+  win_domain_user:
+    name: "adminocp"
+    password: "redhat@123"
+    state: present
+    email: "adminocp@techtour2019.com"
+    path: "{{ path_group }}"
+    groups:
+      - Domain Admins
+
 
 - debug:
     msg: "Active Directory Instalado!"
