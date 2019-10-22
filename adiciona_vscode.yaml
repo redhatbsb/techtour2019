@@ -1,0 +1,24 @@
+- hosts: all
+  vars:
+   safe_mode_password: "redhat@123"
+   path_group: "DC=ad,DC=techtour2019,DC=com"
+   ansible_connection: winrm
+   ansible_ssh_port: 5986
+   ansible_ssh_user: administrator
+   ansible_ssh_pass: redhat@123
+   ansible_winrm_server_cert_validation: ignore
+   ansible_winrm_transport: plaintext
+  tasks:
+  - name: Cria diretorio temp
+    win_file:
+      path: C:\Temp\
+      state: directory
+
+  - name: Copia instalador Vscode
+    win_copy:
+      src: assets/VSCodeSetup-x64-1.39.2.exe
+      dest: c:\Temp\vscode.exe
+
+  - name: Instala o Vscode
+    win_command: "c:\\temp\\vscode.exe /VERYSILENT /MERGETASKS=!runcode"
+ 
